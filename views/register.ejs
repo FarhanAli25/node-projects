@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+  <h1>Register Form</h1>
+  <form action="/register" method="post" onsubmit="return registerUser()">
+    <label for="email">Enter Your email</label>
+    <br>
+    <input type="email" name="email" id="email" required>
+    <br>
+    <label for="password">Enter your password</label>
+    <br>
+    <input type="password" name="password" id="password" required>
+    <br>
+    <input style="cursor: pointer;" type="submit" value="Register">
+    <br>
+    <a href="http://localhost:3300/forgot-password">Forgot password</a>
+  </form>
+
+  <script>
+    async function registerUser() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const responseData = await response.json();
+      if (response.ok) {
+        console.log("User registered successfully");
+        // Redirect or show a success message
+      } else {
+        console.error("Error:", responseData.error);
+        // Handle error: display error message to the user
+      }
+
+      return false; // Prevent default form submission
+    }
+  </script>
+</body>
+</html>
